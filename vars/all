@@ -1,0 +1,5 @@
+proxy_ip: 172.28.0.121
+no_proxy: .upc-caas.local
+airgap_ns: airgap
+airgap_release: 5.4.3
+
