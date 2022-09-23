@@ -1,0 +1,10 @@
+# (C) Copyright 2021 Hewlett Packard Enterprise Development LP
+---
+
+- name: Configure Airgap Utility Pod
+  gather_facts: true
+  hosts: k3smaster
+  roles:
+    - role:  airgap-utility
+
+

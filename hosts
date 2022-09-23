@@ -1,0 +1,4 @@
+# (C) Copyright 2021 Hewlett Packard Enterprise Development LP
+[k3smaster]
+localhost	ansible_connection=local
+ 

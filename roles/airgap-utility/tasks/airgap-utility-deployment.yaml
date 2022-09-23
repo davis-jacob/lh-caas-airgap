@@ -1,0 +1,15 @@
+# (C) Copyright 2021 Hewlett Packard Enterprise Development LP
+--- 
+
+- name: copying file with playbook
+  become: true
+  copy:
+    src: ../templates/suse/suse-deployment.yaml
+    dest: /tmp/suse-deployment.yaml
+
+- name: Run command to deploy airgap-utility
+  command:
+    cmd: kubectl create -f /tmp/suse-deployment.yaml -n airgap
+
+
+
