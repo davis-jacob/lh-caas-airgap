@@ -6,7 +6,7 @@ metadata:
   labels:
     app: airgap-utility1
 spec:
-  replicas: 2
+  replicas: "{{ airgap_replica }}"
   selector:
     matchLabels:
       app: airgap-utility1
