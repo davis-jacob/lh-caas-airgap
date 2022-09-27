@@ -6,7 +6,7 @@ metadata:
   labels:
     app: airgap-utility1
 spec:
-  replicas: "{{ airgap_replica }}"
+  replicas: {{ airgap_replica }}
   selector:
     matchLabels:
       app: airgap-utility1
@@ -20,11 +20,11 @@ spec:
         image: registry.suse.com/bci/bci-base
         env:
         - name: https_proxy
-          value: http://172.28.0.121:3128
+          value: {{ proxy_url_https }}
         - name: http_proxy
-          value: http://172.28.0.121:3128
+          value: {{ proxy_url_http }}
         - name: no_proxy
-          value: .upc-caas.local
+          value: {{ airgap_noproxy }}
         command: ["/bin/sh"]
         args: ["-c", "while true; do zypper install -y skopeo; zypper install -y wget; zypper addrepo 'http://download.opensuse.org/repositories/devel:/tools:/scm/15.3/devel:tools:scm.repo'; zypper install -y python3; zypper install -y python3-pip; wget 'https://ezmeral-platform-releases.s3.amazonaws.com/5.4.1/3073/hpeairgaputil-1.1-py2.py3-none-any.whl'; pip3 install hpeairgaputil-1.1-py2.py3-none-any.whl; sleep 10; done"]
         resources: {}

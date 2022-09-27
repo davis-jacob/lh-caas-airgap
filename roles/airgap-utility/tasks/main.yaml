@@ -8,3 +8,7 @@
 - name: Airgap Pod deployment
   include_tasks: airgap-utility-deployment.yaml
 
+- name: Airgap Pod deployment
+  include_tasks: airgap-utility-cronjob.yaml
+
+

@@ -1,8 +1,11 @@
 # (C) Copyright 2021 Hewlett Packard Enterprise Development LP
 
-proxy_ip: 172.28.0.121
-no_proxy: .upc-caas.local
+airgap_proxy_IP: 172.28.0.121
+airgap_proxy_port: 3128
+airgap_proxy_username: 
+airgap_proxy_password: 
+airgap_noproxy: .upc-caas.local
 airgap_ns: airgap
 airgap_release: 5.4.3
-airgap_replica: 1
+airgap_replica: 3
 

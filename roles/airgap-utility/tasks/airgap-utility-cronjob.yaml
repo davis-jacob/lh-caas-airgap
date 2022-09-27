@@ -1,13 +1,6 @@
 # (C) Copyright 2021 Hewlett Packard Enterprise Development LP
 --- 
 
-
-- name:  Set replication details
-  set_fact:
-    airgap_replica: 2
-  when:
-    - airgap_replica is not defined or airgap_replica < 2  
-
 - name: Set proxy url without credentials
   set_fact:
     proxy_url_https: "https://{{ airgap_proxy_IP }}:{{ airgap_proxy_port }}"
@@ -31,14 +24,13 @@
 - name: copying file with playbook
   become: true
   template:
-    src: ../templates/airgap-pod-deployment.yaml.j2
-    dest: /tmp/airgap-pod-deployment.yaml
+    src: ../templates/airgap-cronjob.yaml.j2
+    dest: /tmp/airgap-cronjob.yaml
 
      
-
 - name: Run command to deploy airgap-utility
   command:
-    cmd: kubectl create -f /tmp/airgap-pod-deployment.yaml -n "{{ airgap_ns }}"
+    cmd: kubectl create -f /tmp/airgap-cronjob.yaml -n "{{ airgap_ns }}"
   become: true
 
 
