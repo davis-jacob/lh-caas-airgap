@@ -2,15 +2,15 @@
 --- 
 
 
-- name:  Set replication details
-  set_fact:
-    airgap_replica: 2
-  when:
-    - airgap_replica is not defined or airgap_replica < 2  
+#- name:  Set replication details
+#  set_fact:
+#    airgap_replica: 1
+#  when:
+#    - airgap_replica is not defined or airgap_replica < 1
 
 - name: Set proxy url without credentials
   set_fact:
-    proxy_url_https: "https://{{ airgap_proxy_IP }}:{{ airgap_proxy_port }}"
+    proxy_url_https: "http://{{ airgap_proxy_IP }}:{{ airgap_proxy_port }}"
     proxy_url_http: "http://{{ airgap_proxy_IP }}:{{ airgap_proxy_port }}"
   when:
     - airgap_proxy_IP is defined | default('', true) | trim != ''
@@ -18,10 +18,10 @@
     - (airgap_proxy_username is not defined) or (airgap_proxy_username |lower == 'none')
     - (airgap_proxy_password is not defined) or (airgap_proxy_password |lower == 'none')
 
-- name: Set customer proxy url with credentials
+- name: Set proxy url with credentials
   set_fact:
     proxy_url_http: "http://{{ airgap_proxy_username }}:{{ airgap_proxy_password }}@{{ airgap_proxy_IP }}:{{ airgap_proxy_port }}"
-    proxy_url_https: "https://{{ airgap_proxy_username }}:{{ airgap_proxy_password }}@{{ airgap_proxy_IP }}:{{ airgap_proxy_port }}"
+    proxy_url_https: "http://{{ airgap_proxy_username }}:{{ airgap_proxy_password }}@{{ airgap_proxy_IP }}:{{ airgap_proxy_port }}"
   when:
     - airgap_proxy_IP is defined | default('', true) | trim != ''
     - airgap_proxy_port is defined | default('', true) | trim != ''
@@ -35,10 +35,54 @@
     dest: /tmp/airgap-pod-deployment.yaml
 
      
-
 - name: Run command to deploy airgap-utility
   command:
     cmd: kubectl create -f /tmp/airgap-pod-deployment.yaml -n "{{ airgap_ns }}"
   become: true
+  register: airgap__pods_created
+
+- name: wait for pods to come up
+  shell: kubectl get pods -n airgap -o json
+  register: airgap_get_pods
+  until: airgap_get_pods.stdout|from_json|json_query('items[*].status.phase')|unique == ["Running"]
+  retries: 5
+  delay: 10
+  
+- name: Get airgap pod name
+  shell:
+    cmd: "kubectl get pods -n {{ airgap_ns }} |grep -i airgap-utility1* | awk '{print $1}'"
+  register: pod_name
+   
+- name: Run command to check internet connectivity
+  shell:
+    cmd: kubectl exec -it pod/"{{ pod_name.stdout }}" -n "{{ airgap_ns }}" -- curl -I https://linuxconfig.org
+  register: internet_result
+  ignore_errors: yes
+
+- name: Fails if Internet not available on Pod
+  fail:
+    msg: "Internet not available on pod please check proxy"
+  when: "'HTTP/1.1 200' not in internet_result.stdout"
+
+- name: Install skopeo and wget 
+  command:
+    cmd: "kubectl exec -it pod/{{ pod_name.stdout }} -n {{ airgap_ns }} -- {{ item }}"
+  register: install_result_
+  failed_when: "'FAILED' in result_result.stderr"
+  with_items:
+    - zypper install -y skopeo wget
+    - zypper addrepo 'http://download.opensuse.org/repositories/devel:/tools:/scm/15.3/devel:tools:scm.repo'
+    - zypper install -y python3 python3-pip
+    - wget 'https://ezmeral-platform-releases.s3.amazonaws.com/5.4.1/3073/hpeairgaputil-1.1-py2.py3-none-any.whl'
+    - pip3 install hpeairgaputil-1.1-py2.py3-none-any.whl
+
+- name: Download images to local harbor
+  command:
+    cmd: "hpe-airgap-util --release {{ airgap_release }}  --copy --dest_url harbor.upc-caas.local/airgap --component {{ item }}--dest_creds 'admin:Password!234'"
+  register: download_result
+  failed_when: "'FAILED' in result_result.stderr"
+  with_item:
+    - airflow
+  
 
 

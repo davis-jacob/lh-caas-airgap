@@ -4,16 +4,15 @@ kind: Deployment
 metadata:
   name: airgap-utility1
   labels:
-    app: airgap-utility1
+    app: airgap-utility
 spec:
-  replicas: {{ airgap_replica }}
   selector:
     matchLabels:
-      app: airgap-utility1
+      app: airgap-utility
   template:
     metadata:
       labels:
-        app: airgap-utility1
+        app: airgap-utility
     spec:
       containers:
       - name: airgap-utility1
@@ -26,7 +25,8 @@ spec:
         - name: no_proxy
           value: {{ airgap_noproxy }}
         command: ["/bin/sh"]
-        args: ["-c", "while true; do zypper install -y skopeo; zypper install -y wget; zypper addrepo 'http://download.opensuse.org/repositories/devel:/tools:/scm/15.3/devel:tools:scm.repo'; zypper install -y python3; zypper install -y python3-pip; wget 'https://ezmeral-platform-releases.s3.amazonaws.com/5.4.1/3073/hpeairgaputil-1.1-py2.py3-none-any.whl'; pip3 install hpeairgaputil-1.1-py2.py3-none-any.whl; sleep 10; done"]
+        args: ["-c", "sleep infinity"]
         resources: {}
+      restartPolicy: Always
       dnsPolicy: ClusterFirst
 
