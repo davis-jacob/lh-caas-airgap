@@ -68,20 +68,21 @@
   command:
     cmd: "kubectl exec -it pod/{{ pod_name.stdout }} -n {{ airgap_ns }} -- {{ item }}"
   register: install_result_
-  failed_when: "'FAILED' in result_result.stderr"
+#  failed_when: "'FAILED' in install_result.stderr"
   with_items:
     - zypper install -y skopeo wget
     - zypper addrepo 'http://download.opensuse.org/repositories/devel:/tools:/scm/15.3/devel:tools:scm.repo'
     - zypper install -y python3 python3-pip
     - wget 'https://ezmeral-platform-releases.s3.amazonaws.com/5.4.1/3073/hpeairgaputil-1.1-py2.py3-none-any.whl'
     - pip3 install hpeairgaputil-1.1-py2.py3-none-any.whl
+  ignore_errors: yes
 
 - name: Download images to local harbor
-  command:
-    cmd: "hpe-airgap-util --release {{ airgap_release }}  --copy --dest_url harbor.upc-caas.local/airgap --component {{ item }}--dest_creds 'admin:Password!234'"
+  shell:
+    cmd: "kubectl exec -it pod/{{ pod_name.stdout }} -n {{ airgap_ns }} -- hpe-airgap-util --release {{ airgap_release }}  --copy --dest_url 172.28.4.52/airgap --component {{ item }} --dest_creds 'admin:Password!234'"
   register: download_result
-  failed_when: "'FAILED' in result_result.stderr"
-  with_item:
+#  failed_when: "'FAILED' in download_result.stderr"
+  with_items:
     - airflow
   
 
