@@ -8,4 +8,4 @@ airgap_noproxy: .upc-caas.local
 airgap_ns: airgap
 airgap_release: 5.4.3
 airgap_replica: 1
-
+ansible_password: "{{ k3s_root_password }}"

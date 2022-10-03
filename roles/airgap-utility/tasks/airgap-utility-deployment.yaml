@@ -29,17 +29,21 @@
     - (airgap_proxy_password is defined) and (airgap_proxy_password |lower != 'none')
  
 - name: copying file with playbook
-  become: true
   template:
     src: ../templates/airgap-pod-deployment.yaml.j2
     dest: /tmp/airgap-pod-deployment.yaml
-
      
 - name: Run command to deploy airgap-utility
   command:
     cmd: kubectl create -f /tmp/airgap-pod-deployment.yaml -n "{{ airgap_ns }}"
-  become: true
-  register: airgap__pods_created
+  register: airgap_pods_created
+  ignore_errors: yes
+
+- name: Airgap Utility pod running
+  fail:
+    msg: "Airgap Utility pod already running"
+  when: "'Error from server (AlreadyExists): error when creating' in airgap_pods_created.stderr"
+
 
 - name: wait for pods to come up
   shell: kubectl get pods -n airgap -o json
@@ -79,11 +83,12 @@
 
 - name: Download images to local harbor
   shell:
-    cmd: "kubectl exec -it pod/{{ pod_name.stdout }} -n {{ airgap_ns }} -- hpe-airgap-util --release {{ airgap_release }}  --copy --dest_url 172.28.4.52/airgap --component {{ item }} --dest_creds 'admin:Password!234'"
+    cmd: "kubectl exec -it pod/{{ pod_name.stdout }} -n {{ airgap_ns }} -- hpe-airgap-util --release {{ airgap_release }}  --copy --dest_url harbor.upc-caas.local/airgap --component {{ item }} --dest_creds 'admin:Password!234'"
   register: download_result
 #  failed_when: "'FAILED' in download_result.stderr"
   with_items:
     - airflow
+    - argocd
   
 
 

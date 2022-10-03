@@ -3,10 +3,11 @@
 
 - name: Include common vars
   include_vars: group_vars/common_vars
-  no_log: true
+#  no_log: true
 
 - name: Airgap Pod deployment
   include_tasks: airgap-utility-deployment.yaml
+#  no_log: true
 
 #- name: Airgap Cron Job
 #  include_tasks: airgap-utility-cronjob.yaml
