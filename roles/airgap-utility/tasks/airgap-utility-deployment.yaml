@@ -89,6 +89,24 @@
   with_items:
     - airflow
     - argocd
+    - datafabric 
+    - falco
+    - hpecp-agent
+    - hpecp-monitoring
+    - hpecp-nvidiagpubeat
+    - hpecp-serviceaccounts
+    - istio
+    - kube-state-metrics
+    - kubedirector 
+    - kubeflow
+    - kubernetes
+    - kubernetes-dashboard
+    - metrics-server
+    - mlops 
+    - nvidia-plugin 
+    - opa-gatekeeper 
+    - spark
+    - spark-operator
   
 
 
