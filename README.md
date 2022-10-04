@@ -40,12 +40,20 @@ git clone https://github.com/davis-jacob/lh-caas-airgap.git
 ```
 3.	Edit the vault and variable file with SSH password and proxy.  Default vault password is `changeme`
 ```bash
-ansible-vault edit lh-caas-airgap/vault.yml
-vim lh-caas-airgap/group_vars/common_vars
-```
-4.	Run the ansible play to deploy the airgap-utility and to pull the images to the local harbor
-```bash
 cd lh-caas-airgap/
+ansible-vault edit vault.yml
+vim group_vars/common_vars
+
+```
+4.	Edit the host file and update the IP for the K3s master node under ‘[k3smaster]’
+```bash
+vim hosts
+[k3smaster]
+172.28.0.102    ansible_connection=ssh  ansible_user=root ansible_password="{{ k3s_root_password }}" ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+```
+
+5.	Run the ansible play to deploy the airgap-utility and to pull the images to the local harbor
+```bash
 ansible-playbook -i hosts -e @vault.yml  airgap-Utility.yaml --ask-vault-pass
 ```
-5.	Once completed make sure 291 repositories are added to the Harbor project.
+6.	Once completed make sure 291 repositories are added to the Harbor project.
