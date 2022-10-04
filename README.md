@@ -23,7 +23,8 @@ vim lh-caas-airgap/scripts/sles_pod.yaml
 
 3.	Run the script to deploy SLES pod with anisble installed on the K3s master under name space airgap
 ```bash
-./lh-caas-airgap/scripts/sles_container.sh
+cd lh-caas-airgap/scripts
+./sles_container.sh
 ```
 #### Deploy Airgap-Utility 
 1.	Exec to the Ansible pod to run the rest of the commands
