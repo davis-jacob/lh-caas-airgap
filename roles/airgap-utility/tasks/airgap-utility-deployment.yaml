@@ -85,7 +85,6 @@
   shell:
     cmd: "kubectl exec -it pod/{{ pod_name.stdout }} -n {{ airgap_ns }} -- hpe-airgap-util --release {{ airgap_release }}  --copy --dest_url harbor.upc-caas.local/airgap --component {{ item }} --dest_creds 'admin:Password!234'"
   register: download_result
-#  failed_when: "'FAILED' in download_result.stderr"
   with_items:
     - airflow
     - argocd
@@ -107,6 +106,8 @@
     - opa-gatekeeper 
     - spark
     - spark-operator
-  
+  until: "'FAILED' not in download_result.stderr "
+  retries: 10
+  delay: 30
 
 

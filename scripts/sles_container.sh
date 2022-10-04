@@ -34,9 +34,16 @@ pod_name=$(kubectl get pods -n airgap |grep ansible-seed | awk '{print $1}')
 ###### install Ansible and inside the pod
 #kubectl exec -it pod/airgap-utility1-dff8c459f-7pmj7 -n airgap -- zypper install ansible
 
+echo "Enter the email ID for SUSEConnect Subscription:"
+read -p "Email ID:" suse_email
+
+echo "Enter the registration code for SUSEConnect Subscription:"
+read -s -p "Registration Code:" suse_pass
+
+
 kubectl exec -it pod/$pod_name -n airgap -- zypper install -y SUSEConnect
-kubectl exec -it pod/$pod_name -n airgap -- SUSEConnect -r D5EF8D64F5D7C188 -e jim.mills@hpe.com
+kubectl exec -it pod/$pod_name -n airgap -- SUSEConnect -r $suse_pass -e $suse_email
 kubectl exec -it pod/$pod_name -n airgap -- SUSEConnect -p PackageHub/15.4/x86_64
-kubectl exec -it pod/$pod_name -n airgap -- zypper install -y ansible git sshpass wget
+kubectl exec -it pod/$pod_name -n airgap -- zypper install -y ansible git sshpass wget vim
 
-
+unset suse_pass suse_email  
