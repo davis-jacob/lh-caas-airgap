@@ -72,7 +72,6 @@
   command:
     cmd: "kubectl exec -it pod/{{ pod_name.stdout }} -n {{ airgap_ns }} -- {{ item }}"
   register: install_result_
-#  failed_when: "'FAILED' in install_result.stderr"
   with_items:
     - zypper install -y skopeo wget
     - zypper addrepo 'http://download.opensuse.org/repositories/devel:/tools:/scm/15.3/devel:tools:scm.repo'
@@ -106,8 +105,8 @@
     - opa-gatekeeper 
     - spark
     - spark-operator
-  until: "'FAILED' not in download_result.stderr "
-  retries: 10
-  delay: 30
-
+  until:
+    - "'skipped' in download_result.stdout"
+  retries: 5
+  delay: 15
 
