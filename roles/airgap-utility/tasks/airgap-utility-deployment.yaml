@@ -109,4 +109,5 @@
     - "'skipped' in download_result.stdout"
   retries: 5
   delay: 15
+  tags: image_download
 
