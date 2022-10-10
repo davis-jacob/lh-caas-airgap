@@ -9,7 +9,5 @@
   include_tasks: airgap-utility-deployment.yaml
 #  no_log: true
 
-#- name: Airgap Cron Job
-#  include_tasks: airgap-utility-cronjob.yaml
 
 
