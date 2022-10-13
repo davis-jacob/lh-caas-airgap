@@ -1,10 +1,10 @@
 # (C) Copyright 2021 Hewlett Packard Enterprise Development LP
 
-airgap_proxy_IP: 172.28.1.120
+airgap_proxy_IP: 172.28.0.20
 airgap_proxy_port: 3128
 airgap_proxy_username: 
 airgap_proxy_password: 
-airgap_noproxy: .upc-caas.local
+airgap_noproxy: localhost,127.0.0.1,pulp.gl-hpe.local,harbor.gl-hpe.local,.gl-hpe.local,172.28.0.0/24,172.28.4.0/24,172.28.0.121,172.28.3.111,172.28.3.112,172.28.3.113
 airgap_ns: airgap
 airgap_release: 5.4.3
 airgap_replica: 1

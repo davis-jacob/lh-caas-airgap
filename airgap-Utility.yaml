@@ -2,7 +2,7 @@
 ---
 
 - name: Configure Airgap Utility Pod
-  gather_facts: false
+  gather_facts: no
   hosts: k3smaster
   roles:
     - role:  airgap-utility
