@@ -11,8 +11,8 @@ This repo consists of the following
 - Ansible plays to deploy the Airgap-Utility pod and to download images from the GL marketplace to the local harbor
 
 **Notes:** 
-1. Make sure Harbor SVC External IP is added to your Jumpstation hostfile
-2. Create new project in Harbor named 'airgap' with unlimited resources
+- Make sure Harbor SVC External IP is added to your Jumpstation hostfile
+- Create new project in Harbor named 'airgap' with unlimited resources
 
 ### Steps to install Airgap-Utility
 ####   Deploy Ansible seed server 
