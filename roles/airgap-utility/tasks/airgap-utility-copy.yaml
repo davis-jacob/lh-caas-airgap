@@ -19,7 +19,8 @@
 
 - name: Convert to yaml file
   shell: 
-    cmd: awk 'NF {print "item:"'FNR'":"" "$0}' /tmp/airgap-tmpfile.txt >> /tmp/airgap-tmpfile.yaml
+#    cmd: awk 'NF {print "item:"'FNR'":"" "$0}' /tmp/airgap-tmpfile.txt >> /tmp/airgap-tmpfile.yaml
+    cmd: awk 'NF {print $0}' /tmp/airgap-tmpfile.txt >> /tmp/airgap-tmpfile.yaml
 
 
 - name: ansible copy file 

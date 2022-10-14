@@ -44,6 +44,6 @@ read -s -p "Registration Code:" suse_pass
 kubectl exec -it pod/$pod_name -n airgap -- zypper install -y SUSEConnect
 kubectl exec -it pod/$pod_name -n airgap -- SUSEConnect -r $suse_pass -e $suse_email
 kubectl exec -it pod/$pod_name -n airgap -- SUSEConnect -p PackageHub/15.4/x86_64
-kubectl exec -it pod/$pod_name -n airgap -- zypper install -y ansible git sshpass wget vim
+kubectl exec -it pod/$pod_name -n airgap -- zypper install -y ansible git sshpass wget vim awk
 
 unset suse_pass suse_email  
