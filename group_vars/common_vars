@@ -8,5 +8,5 @@ airgap_noproxy: localhost,127.0.0.1,pulp.gl-hpe.local,harbor.gl-hpe.local,.gl-hp
 airgap_ns: airgap
 airgap_release: 5.4.3-3077
 airgap_replica: 1
-ansible_password: "{{ k3s_root_password }}"
+#ansible_password: "{{ k3s_root_password }}"
 domain_name: gl-hpe.local

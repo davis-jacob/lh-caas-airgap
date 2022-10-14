@@ -1,0 +1,67 @@
+---
+- name: Get list of Components for the Airgap-Utility release
+  shell:
+    cmd: kubectl exec -it pod/"{{ pod_name.stdout }}" -n "{{ airgap_ns }}" -- hpe-airgap-util --list_components --release "{{ airgap_release }}" |awk 'NR>3 {print $2 }'
+  register: components_list
+
+- shell: 
+    cmd: cat /dev/null > /tmp/airgap1256.txt && cat /dev/null > /tmp/airgap-tmpfile.txt && echo --- > /tmp/airgap-tmpfile.yaml
+
+- name: Get list of Images for each Components
+  shell:
+    cmd: "kubectl exec -it pod/{{ pod_name.stdout }} -n {{ airgap_ns }} -- hpe-airgap-util --release {{ airgap_release }} --component {{ item  }} | awk 'NR>4 {print $2}' >>/tmp/airgap1256.txt"
+  with_items:
+    - "{{ components_list.stdout_lines }}"
+
+- name: Copy image list to file on the K3s master node
+  shell:
+    cmd: grep -v Total /tmp/airgap1256.txt >> /tmp/airgap-tmpfile.txt
+
+- name: Convert to yaml file
+  shell: 
+    cmd: awk 'NF {print "item:"'FNR'":"" "$0}' /tmp/airgap-tmpfile.txt >> /tmp/airgap-tmpfile.yaml
+
+
+- name: ansible copy file 
+  fetch:
+    src: /tmp/airgap-tmpfile.yaml
+    dest: /tmp/airgap-tmpfile.yaml
+    flat: yes
+
+- name: Read the values from the temp file
+  include_vars:
+    file: /tmp/airgap-tmpfile.yaml
+    name: image_list
+ 
+- name: Download images to local harbor
+  shell:
+    cmd: "kubectl exec -it pod/{{ pod_name.stdout }} -n {{ airgap_ns }} -- hpe-airgap-util --release {{ airgap_release }}  --copy --dest_url harbor.{{ domain_name }}/airgap --image {{ item }} --dest_creds 'admin:Password!234'"
+  register: download_result
+  with_items:
+    - "{{ image_list }}"
+
+#    - airflow
+#    - argocd
+#    - datafabric 
+#    - falco
+#    - hpecp-agent
+#    - hpecp-monitoring
+#    - hpecp-nvidiagpubeat
+#    - hpecp-serviceaccounts
+#    - istio
+#    - kube-state-metrics
+#    - kubedirector 
+#    - kubeflow
+#    - kubernetes
+#    - kubernetes-dashboard
+#    - metrics-server
+#    - mlops 
+#    - nvidia-plugin 
+#    - opa-gatekeeper 
+#    - spark
+#    - spark-operator
+#  until:
+#    - "'skipped' in download_result.stdout"
+#  retries: 5
+#  delay: 30
+#  tags: image_download
