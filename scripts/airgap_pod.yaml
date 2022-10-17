@@ -2,28 +2,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ansible-seed
+  name: airgap-utility
   labels:
-    app: ansible-seed
+    app: airgap-utility
 spec:
   selector:
     matchLabels:
-      app: ansible-seed
+      app: airgap-utility
   template:
     metadata:
       labels:
-        app: ansible-seed
+        app: airgap-utility
     spec:
       containers:
-      - name: ansible-seed
+      - name: airgap-utility
         image: registry.suse.com/bci/bci-base
         env:
         - name: https_proxy
-          value: http://172.28.1.120:3128
+          value: http://172.28.1.120:3128                     ###  Enter the proxy https URL
         - name: http_proxy
-          value: http://172.28.1.120:3128
-        - name: no_proxy
-          value: .upc-caas.local
+          value: http://172.28.1.120:3128                     ####  Enter the proxy http URL
+        - name: no_proxy                                   
+          value: .upc-caas.local                              ####  Enter the no proxy values here
         command: ["/bin/sh"]
         args: ["-c", "sleep infinity"]
         resources: {}

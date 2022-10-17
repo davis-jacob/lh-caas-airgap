@@ -1,4 +1,0 @@
-# (C) Copyright 2021 Hewlett Packard Enterprise Development LP
-[k3smaster]
-172.28.0.101	ansible_connection=ssh  ansible_user=root ansible_password="{{ k3s_root_password }}" ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
- 

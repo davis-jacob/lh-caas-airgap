@@ -4,11 +4,10 @@
 
 Airgap-Utility tool connects to the GreenLake (GL) marketplace registry and aids in pulling images to the local harbor instance.
 
-This repo consists of the following
+This repo consists of the 2 shell scripts
 
 - Shell script to deploy a SLES pod in the K3s cluster (CP node)  which acts as the Ansible seed server. We run the ansible plays for this pod
 
-- Ansible plays to deploy the Airgap-Utility pod and to download images from the GL marketplace to the local harbor
 
 **Notes:** 
 - Make sure Harbor SVC External IP is added to your Jumpstation hostfile
