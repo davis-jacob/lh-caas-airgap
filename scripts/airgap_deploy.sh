@@ -2,26 +2,26 @@
 
 ##Create a NS airgap
 if [ "$(kubectl get ns airgap |awk ' NR==2 {print $1}')" == "airgap" ]; then
-   echo "airgap namespace already exist"
+   echo "\nAirgap namespace already exist"
 else
    kubectl create ns airgap
 fi
 
 ###Pull the SLES image
 if [[ "$(crictl images -q registry.suse.com/bci/bci-base:latest 2> /dev/null)" == "" ]]; then
-   echo "Pulling image from SUSE"
+   echo "\nPulling image from SUSE"
    crictl pull registry.suse.com/bci/bci-base:latest
 else
-   echo "Image already available locally"
+   echo "\nImage already available locally"
 fi
 
 ####Run SLES pod 
 
 if [ "$(kubectl get pods -n airgap| grep -i airgap-utility | awk '{print $3}')" != "Running" ]; then
-   echo "Creating new Airgap Utility pod"
+   echo "\nCreating new Airgap Utility pod"
    kubectl create -f airgap_pod.yaml -n airgap
 else
-   echo "Airgap Utility Pod already running in the NameSpace airgap"
+   echo "\nAirgap Utility Pod already running in the NameSpace airgap"
    exit 0
 fi
 
@@ -31,11 +31,11 @@ pod_name=$(kubectl get pods -n airgap |grep airgap-utility | awk '{print $1}')
 
 ### install Ansible and inside the pod
 
-echo "Enter the email ID for SUSEConnect Subscription:"
-read -p "Email ID:" suse_email
+echo "\nEnter the email ID for SUSEConnect Subscription:"
+read -p "\nEmail ID:" suse_email
 
-echo "Enter the registration code for SUSEConnect Subscription:"
-read -s -p "Registration Code:" suse_pass
+echo "\nEnter the registration code for SUSEConnect Subscription:"
+read -s -p "\nRegistration Code:" suse_pass
 
 ##Install packages
 kubectl exec -it pod/$pod_name -n airgap -- zypper install -y SUSEConnect
