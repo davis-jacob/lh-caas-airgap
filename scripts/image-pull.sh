@@ -23,6 +23,7 @@ cat /dev/null > /tmp/image_error.txt
 cat /dev/null > /tmp/image_success.txt
 cat /dev/null > /tmp/copy_fail.txt
 count=0
+count1=0
 
 ###  Read each line from the image list and copy to the local Harbor
 input="/tmp/list.txt"
@@ -50,8 +51,8 @@ if [ -s /tmp/image_error.txt ]; then
   input="/tmp/image_error.txt"
   while read -r line;
   do
-    ((count+=1))
-    echo "Coping image "$count" out of "$fail_total""
+    ((count1+=1))
+    echo "Coping image "$count1" out of "$fail_total""
     error_image1=$((hpe-airgap-util --release "$version"  --copy --dest_url harbor.gl-hpe.local/airgap --image "$line" --dest_creds 'admin:Password!234' | grep  -i error) 2>&1 > /dev/null)
     if [ -z "$error_image1" ];then
       echo "$line" >> /tmp/image_success.txt
