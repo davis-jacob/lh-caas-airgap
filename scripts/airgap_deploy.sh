@@ -31,10 +31,10 @@ pod_name=$(kubectl get pods -n airgap |grep airgap-utility | awk '{print $1}')
 
 ### install Ansible and inside the pod
 
-printf "\n\nEnter the email ID for SUSEConnect Subscription:"
+echo "\n\nEnter the email ID for SUSEConnect Subscription:"
 read -p "Email ID:" suse_email
 
-printf "\n\nEnter the registration code for SUSEConnect Subscription:"
+echo "\n\nEnter the registration code for SUSEConnect Subscription:"
 read -s -p "Registration Code:" suse_pass
 
 ##Install packages
