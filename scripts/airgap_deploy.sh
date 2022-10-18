@@ -40,8 +40,8 @@ read -s -p "Registration Code:" suse_pass
 ##Install packages
 kubectl exec -it pod/$pod_name -n airgap -- zypper install -y SUSEConnect
 kubectl exec -it pod/$pod_name -n airgap -- SUSEConnect -r $suse_pass -e $suse_email
-kubectl exec -it pod/$pod_name -n airgap -- zypper install -y git sshpass wget vim awk skopeo
-kubectl exec -it pod/$pod_name -n airgap -- zypper addrepo 'http://download.opensuse.org/repositories/devel:/tools:/scm/15.3/devel:tools:scm.repo'
+kubectl exec -it pod/$pod_name -n airgap -- zypper install -y git wget vim awk skopeo
+kubectl exec -it pod/$pod_name -n airgap -- zypper addrepo -a 'http://download.opensuse.org/repositories/devel:/tools:/scm/15.3/devel:tools:scm.repo'
 kubectl exec -it pod/$pod_name -n airgap -- zypper install -y python3 python3-pip
 unset suse_pass suse_email  
 
