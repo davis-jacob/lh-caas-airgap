@@ -28,6 +28,9 @@ vi lh-caas-airgap/scripts/airgap_pod.yaml
 cd lh-caas-airgap/scripts
 ./airgap_deploy.sh
 ```
+**Notes:** 
+- Provide the SUSE registration details when prompted
+
 #### Copy Images to the Harbor 
 1.	Exec to the Airgap-Utility  pod to run the rest of the commands
 ```bash
