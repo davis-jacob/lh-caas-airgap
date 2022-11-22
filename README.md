@@ -35,9 +35,9 @@ Provide the SUSE registration details when prompted
 1.	Exec to the Airgap-Utility  pod to run the rest of the commands
 ```bash
 kubectl get pods -n airgap |grep airgap-utility
-ansible-seed-cb6f6995d-5ww2j      1/1     Running   0          21h
+airgap-utility-76bfc5867c-b26bb   1/1     Running   0          4m31s
 
-kubectl exec -it ansible-seed-cb6f6995d-5ww2j -n airgap – bash
+kubectl exec -it airgap-utility-76bfc5867c-b26bb -n airgap – bash
 ```
 2.	Clone the Git repo to the Ansible seed server
 ```bash
