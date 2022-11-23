@@ -12,6 +12,10 @@ This repo consists of the 2 shell scripts
 
 **Notes:** 
 - Make sure Harbor SVC External IP is added to your Jumpstation hostfile
+```bash
+C:\Windows\System32\drivers\etc\hosts
+172.28.4.54  harbor.cwg-hpe.local  harbor
+```
 - Create new project in Harbor named 'airgap' with unlimited resources
 
 ### Steps to install Airgap-Utility
