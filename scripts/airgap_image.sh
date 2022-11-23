@@ -1,4 +1,8 @@
 #!/bin/bash
+### Get the Domain name
+printf "Enter the domain name for the Harbor\n"
+read -p "Harbor Domain Name :" domain
+printf "\n\n"
 
 ### Get the releases version
 printf "$(hpe-airgap-util --list_releases |awk '{print $1}')"
@@ -31,7 +35,7 @@ while read -r line;
 do
   ((count+=1))
   echo "Coping image "$count" out of "$total""
-  error_image=$((hpe-airgap-util --release "$version"  --copy --dest_url harbor.gl-hpe.local/airgap --image "$line" --dest_creds 'admin:Password!234' | grep  -i error) 2>&1 > /dev/null)
+  error_image=$((hpe-airgap-util --release "$version"  --copy --dest_url harbor."$domain"/airgap --image "$line" --dest_creds 'admin:Password!234' | grep  -i error) 2>&1 > /dev/null)
   if [ -z "$error_image" ];
   then
     echo "$line" >> /tmp/image_success.txt
