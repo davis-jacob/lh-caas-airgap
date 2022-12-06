@@ -19,8 +19,10 @@ C:\Windows\System32\drivers\etc\hosts
 
 ### Steps to install Airgap-Utility
 
-1.	Download the ansible repo using the following command on any of the K3s master node. git clone https://github.com/davis-jacob/lh-caas-airgap.git
-
+1.	Download the ansible repo using the following command on any of the K3s master node. 
+```bash
+git clone https://github.com/davis-jacob/lh-caas-airgap.git
+```
 2.	Edit the yaml file and update proxy details for the Airgap-Utility SLES pod deployment.
 ```bash
 Update values for https_proxy, http_proxy and no proxy
