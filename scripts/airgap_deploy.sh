@@ -31,10 +31,10 @@ pod_name=$(kubectl get pods -n airgap |grep airgap-utility | awk '{print $1}')
 
 ### install Ansible and inside the pod
 
-echo "\n\nEnter the email ID for SUSEConnect Subscription:"
+printf "\n\nEnter the email ID for SUSEConnect Subscription:"
 read -p "Email ID:" suse_email
 
-echo "\n\nEnter the registration code for SUSEConnect Subscription:"
+printf "\n\nEnter the registration code for SUSEConnect Subscription:"
 read -s -p "Registration Code:" suse_pass
 
 ##Install packages
@@ -46,5 +46,5 @@ kubectl exec -it pod/$pod_name -n airgap -- zypper install -y python3 python3-pi
 unset suse_pass suse_email  
 
 ##Install the latest version of the Airgap-Utility
-kubectl exec -it pod/$pod_name -n airgap -- wget 'https://ezmeral-platform-releases.s3.amazonaws.com/5.4.3/hpeairgaputil-1.3-py2.py3-none-any.whl'
+kubectl exec -it pod/$pod_name -n airgap -- wget 'https://ezmeral-platform-releases.s3.amazonaws.com/5.5.0/hpeairgaputil-1.3-py2.py3-none-any.whl'
 kubectl exec -it pod/$pod_name -n airgap -- pip3 install hpeairgaputil-1.3-py2.py3-none-any.whl
