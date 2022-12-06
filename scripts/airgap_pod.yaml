@@ -20,9 +20,15 @@ spec:
         env:
         - name: https_proxy
           value: http://172.28.1.120:3128                     ###  Enter the proxy https URL
-        - name: http_proxy
+        - name: http_prox
+          value: http://172.28.1.120:3128                     ###  Enter the proxy https URL
+        - name: HTTPS_PROXY
+          value: http://172.28.1.120:3128                     ###  Enter the proxy https URL         
+        - name: HTTP_PROXY
           value: http://172.28.1.120:3128                     ####  Enter the proxy http URL
         - name: no_proxy                                   
+          value: .upc-caas.local                              ####  Enter the no proxy values here
+        - name: NO_PROXY                                   
           value: .upc-caas.local                              ####  Enter the no proxy values here
         command: ["/bin/sh"]
         args: ["-c", "sleep infinity"]
