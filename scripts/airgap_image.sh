@@ -76,7 +76,7 @@ printf "\nSuccessfully copied  "$succes_total" images out of $total, list availa
 
 if [ -s /tmp/copy_fail.txt ]; then
 printf "\n\nFailed to copy "$fail_total" image, list available at /tmp/copy_fail.txt\n\n"
-printf "\n\nRun the following command for the failed images 'hpe-airgap-util --release 5.4.3-3077  --copy --dest_url harbor.gl-hpe.local/airgap --image <image_name> --dest_creds 'admin:Password!234'\n\n"
+printf "\n\nRun the following command for the failed images 'hpe-airgap-util --release 5.5.0  --copy --dest_url harbor.$domain/airgap --image <image_name> --dest_creds 'admin:Password!234'\n\n"
 else
 printf "\n\n All images copied to the local harbor \n\n"
 fi
