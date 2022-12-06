@@ -1,6 +1,6 @@
 #!/bin/bash
 ### Get the Domain name
-printf "Enter the domain name for the Harbor\n"
+printf "Enter the domain name for the Environment\n"
 read -p "Harbor Domain Name :" domain
 printf "\n\n"
 
