@@ -20,7 +20,7 @@ spec:
         env:
         - name: https_proxy
           value: http://172.28.1.120:3128                     ###  Enter the proxy https URL
-        - name: http_prox
+        - name: http_proxy
           value: http://172.28.1.120:3128                     ###  Enter the proxy https URL
         - name: HTTPS_PROXY
           value: http://172.28.1.120:3128                     ###  Enter the proxy https URL         
