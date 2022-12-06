@@ -44,7 +44,7 @@ airgap-utility-76bfc5867c-b26bb   1/1     Running   0          4m31s
 
 kubectl exec -it airgap-utility-76bfc5867c-b26bb -n airgap – bash
 ```
-2.	Clone the Git repo to the Ansible seed server
+2.	Clone the Git repo to the Airgap-Utility pod
 ```bash
 git clone https://github.com/davis-jacob/lh-caas-airgap.git
 ```
@@ -53,4 +53,4 @@ git clone https://github.com/davis-jacob/lh-caas-airgap.git
 cd lh-caas-airgap/scripts
 ./airgap_image.sh
 ```
-4.	Once completed make sure 291 repositories are added to the Harbor project.
+4.	Once completed make sure 339 repositories are added to the Harbor project.
